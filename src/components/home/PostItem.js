@@ -3,23 +3,23 @@ import styled from "styled-components";
 import { Grey1, Grey2 } from "../../styles/color";
 import { Body1, Body2 } from "../../styles/font";
 import likeImg from "../../assets/icon/icon-like.png";
+import dayjs from "dayjs";
 
-function PostItem() {
+function PostItem({ postData }) {
   return (
     <StyledPostItem>
       <div className="title">
-        <Body1>얘들아 안녕</Body1>
+        <Body1>{postData.title}</Body1>
       </div>
       <div className="post-info">
-        <Body2 color={Grey1}>정인영</Body2>
-        <Body2 color={Grey1}>5.20 00:02</Body2>
+        <Body2 color={Grey1}>{postData.user}</Body2>
+        <Body2 color={Grey1}>{dayjs(postData.created_at).format('MM-DD HH:mm')}</Body2>
         <div className="like">
-          <LikeIcon src={likeImg} alt="좋아요 아이콘" />
-          +3
+          <LikeIcon src={likeImg} alt="좋아요 아이콘" />+{postData.likes_count}
         </div>
       </div>
       <div className="comment">
-        <Body2>3</Body2>
+        <Body2>{postData.comments_count}</Body2>
         <Body2 color={Grey1}>댓글</Body2>
       </div>
     </StyledPostItem>

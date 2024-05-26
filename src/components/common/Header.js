@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Grey1, Grey2 } from "../../styles/color";
 import logo from "../../assets/icon/logo.svg";
 import login from "../../assets/icon/login.svg";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import backIcon from "../../assets/icon/icon-back.svg";
 import postIcon from "../../assets/icon/icon-write-post.png";
 function Header() {
   // useLocation훅을 통하여 현재 위치를 비구조화할당으로 pathname이라는 변수로서 저장
   const { pathname } = useLocation();
-  const [isLogin, setIsLogin] = useState(true);
-
+  const [isLogin, setIsLogin] = useState(false);
+  const navigate = useNavigate();
+  const getIsLogin = () => {
+    if (localStorage.getItem("accessToken")) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  };
+  useEffect(() => {
+    getIsLogin();
+  }, [pathname]);
   // 홈화면일 때, 홈 화면이 아닐 때로 나누어서 조건부 렌더링 구현
 
   // 홈화면 헤더
@@ -28,7 +38,12 @@ function Header() {
             <PostImg src={postIcon} />
           </LoginSuccessDisplay>
         ) : (
-          <LoginNavigateImg src={login} />
+          <LoginNavigateImg
+            src={login}
+            onClick={() => {
+              navigate("/login");
+            }}
+          />
         )}
       </StyledHeader1>
     );
@@ -37,13 +52,18 @@ function Header() {
   } else {
     return (
       <StyledHeader2>
-        <BackImg src={backIcon} />
+        <BackImg
+          src={backIcon}
+          onClick={() => {
+            navigate("/");
+          }}
+        />
         <LogoText>
           {pathname === "/writePost"
             ? "글쓰기"
             : pathname === "/login"
-            ? "로그인"
-            : "글 상세보기"}
+              ? "로그인"
+              : "글 상세보기"}
         </LogoText>
       </StyledHeader2>
     );
