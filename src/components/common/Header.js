@@ -11,6 +11,8 @@ function Header() {
   const { pathname } = useLocation();
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
+
+  
   const getIsLogin = () => {
     if (localStorage.getItem("accessToken")) {
       setIsLogin(true);
@@ -21,9 +23,7 @@ function Header() {
   useEffect(() => {
     getIsLogin();
   }, [pathname]);
-  // 홈화면일 때, 홈 화면이 아닐 때로 나누어서 조건부 렌더링 구현
 
-  // 홈화면 헤더
   if (pathname === "/") {
     return (
       <StyledHeader1>
