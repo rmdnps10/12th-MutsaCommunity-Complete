@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { pageNumAtom } from "../../util/atom";
 
 function SortToggle() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -8,6 +10,7 @@ function SortToggle() {
     searchParams.get("sortType") === "latest" ? "최신 순" : "인기순"
   );
   const navigate = useNavigate();
+  const setPageNum = useSetRecoilState(pageNumAtom);
   const handleSortChange = (event) => {
     const selectedSortType = event.target.value;
     setSortType(selectedSortType);
@@ -16,6 +19,7 @@ function SortToggle() {
     } else if (selectedSortType === "최신 순") {
       navigate("/?sortType=latest");
     }
+    setPageNum(1);
   };
   return (
     <>
