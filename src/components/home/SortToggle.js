@@ -7,7 +7,7 @@ import { pageNumAtom } from "../../util/atom";
 function SortToggle() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortType, setSortType] = useState(
-    searchParams.get("sortType") === "latest" ? "최신 순" : "인기순"
+    searchParams.get("sortType") === "popular" ? "인기순" : "최신 순"
   );
   const navigate = useNavigate();
   const setPageNum = useSetRecoilState(pageNumAtom);
