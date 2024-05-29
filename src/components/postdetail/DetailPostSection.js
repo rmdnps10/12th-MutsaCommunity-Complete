@@ -19,7 +19,6 @@ function DetailPostSection() {
         const res = await instance.get(`board/post-detail/${postid}`);
         setPost(res.data);
         setLikeCount(res.data.likes_count);
-
         const headers = {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         };

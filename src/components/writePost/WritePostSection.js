@@ -23,6 +23,7 @@ function WritePostSection() {
       const res = await instance.post("board/post-create/", body, { headers });
       if (res.status === 201) {
         navigate("/");
+        alert("글 작성 완료!!");
       }
     } catch (err) {
       alert(err);

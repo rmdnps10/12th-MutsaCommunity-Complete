@@ -7,9 +7,11 @@ import { instance } from "../../api/instance";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 function CommentListSection() {
+  const [comment, setComment] = useState("");
+
   const { postid } = useParams();
   const [commentList, setCommentList] = useState([]);
-  const [comment, setComment] = useState("");
+
   const fetchCommentList = async () => {
     try {
       const res = await instance.get(
@@ -22,7 +24,7 @@ function CommentListSection() {
   };
   useEffect(() => {
     fetchCommentList();
-  }, []);
+  }, []); 
 
   const handleClickPostButton = async () => {
     const headers = {
@@ -76,7 +78,7 @@ const CommentTextArea = styled.textarea`
   outline: none;
   border: 1px solid;
   resize: none;
-  font-family: Pretendard;
+  font-family: Pretendard;  
   margin: 2rem 0 1rem;
   border-radius: 1rem;
 `;

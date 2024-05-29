@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import { useCallback } from "react";
 dayjs.extend(duration);
 
 function DdaySection() {
   // dayjs 라이브러리를 사용하여 타겟 일정까지의 남은 시간을 반환해주는 함수
-  const calculateTimeLeft = () => {
+  const calculateTimeLeft = useCallback(() => {
     const now = dayjs(); // 현재 시간
     const targetDate = dayjs("2024-08-16"); // 기말고사 시간
     const diff = targetDate.diff(now);
@@ -19,7 +20,7 @@ function DdaySection() {
       minutes: durationObj.minutes(),
       seconds: durationObj.seconds(),
     };
-  };
+  }, []);
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 

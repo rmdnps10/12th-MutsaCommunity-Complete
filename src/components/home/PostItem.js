@@ -68,4 +68,4 @@ const LikeIcon = styled.img`
   width: 2.4rem;
 `;
 
-export default PostItem;
+export default React.memo(PostItem);

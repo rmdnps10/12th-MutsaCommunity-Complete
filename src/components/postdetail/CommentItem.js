@@ -27,4 +27,4 @@ const CommentItemWrapper = styled.div`
     margin-top: 0.5rem;
   }
 `;
-export default CommentItem;
+export default React.memo(CommentItem);
