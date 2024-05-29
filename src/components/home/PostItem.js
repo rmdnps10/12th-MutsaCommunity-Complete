@@ -4,16 +4,23 @@ import { Grey1, Grey2 } from "../../styles/color";
 import { Body1, Body2 } from "../../styles/font";
 import likeImg from "../../assets/icon/icon-like.png";
 import dayjs from "dayjs";
-
+import { useNavigate } from "react-router-dom";
 function PostItem({ postData }) {
+  const navigate = useNavigate();
   return (
-    <StyledPostItem>
+    <StyledPostItem
+      onClick={() => {
+        navigate(`/post/${postData.id}`);
+      }}
+    >
       <div className="title">
         <Body1>{postData.title}</Body1>
       </div>
       <div className="post-info">
         <Body2 color={Grey1}>{postData.user}</Body2>
-        <Body2 color={Grey1}>{dayjs(postData.created_at).format('MM-DD HH:mm')}</Body2>
+        <Body2 color={Grey1}>
+          {dayjs(postData.created_at).format("MM-DD HH:mm")}
+        </Body2>
         <div className="like">
           <LikeIcon src={likeImg} alt="좋아요 아이콘" />+{postData.likes_count}
         </div>

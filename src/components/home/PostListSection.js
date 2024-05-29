@@ -5,7 +5,7 @@ import { instance } from "../../api/instance";
 import { useSearchParams } from "react-router-dom";
 import { pageNumAtom } from "../../util/atom";
 import { useRecoilState } from "recoil";
-
+import { useNavigate } from "react-router-dom";
 function PostListSection() {
   const [pageNum, setPageNum] = useRecoilState(pageNumAtom);
   const [postList, setPostList] = useState([]);
@@ -40,8 +40,9 @@ function PostListSection() {
     };
     fetchPostData();
   }, [searchParams, pageNum]);
-  console.log(postList);
-
+  useEffect(() => {
+    setPageNum(1);
+  }, []);
   useEffect(() => {
     //  Intersection Observer의 옵션, 0일 때는 교차점이 한 번만 발생해도 실행, 1은 모든 영역이 교차해야 콜백 함수가 실행.
     const observer = new IntersectionObserver(handleObserver, {
@@ -56,6 +57,7 @@ function PostListSection() {
       observer.observe(observerTarget);
     }
   }, []);
+
   return (
     <PostItemContainer>
       <ScrollContainer>
