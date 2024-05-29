@@ -40,6 +40,7 @@ function PostListSection() {
     };
     fetchPostData();
   }, [searchParams, pageNum]);
+  console.log(postList);
 
   useEffect(() => {
     //  Intersection Observer의 옵션, 0일 때는 교차점이 한 번만 발생해도 실행, 1은 모든 영역이 교차해야 콜백 함수가 실행.

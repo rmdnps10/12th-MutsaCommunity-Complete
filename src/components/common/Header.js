@@ -6,18 +6,33 @@ import login from "../../assets/icon/login.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import backIcon from "../../assets/icon/icon-back.svg";
 import postIcon from "../../assets/icon/icon-write-post.png";
+import { instance } from "../../api/instance";
 function Header() {
   // useLocation훅을 통하여 현재 위치를 비구조화할당으로 pathname이라는 변수로서 저장
   const { pathname } = useLocation();
   const [isLogin, setIsLogin] = useState(false);
+  const [name, setName] = useState();
   const navigate = useNavigate();
 
-  
   const getIsLogin = () => {
     if (localStorage.getItem("accessToken")) {
       setIsLogin(true);
+      getUserName();
     } else {
       setIsLogin(false);
+    }
+  };
+  const getUserName = async () => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    };
+    try {
+      const res = await instance.get("accounts/user-name/", { headers });
+      if (res.status === 200) {
+        setName(res.data.name);
+      }
+    } catch (err) {
+      alert(err);
     }
   };
   useEffect(() => {
@@ -27,15 +42,25 @@ function Header() {
   if (pathname === "/") {
     return (
       <StyledHeader1>
-        <div className="logo-section">
+        <div
+          className="logo-section"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
           <LogoImg src={logo} />
           <LogoText>멋사 게시판</LogoText>
         </div>
         {/* 로그인 되어있을 때, 안 되어있을 때로 나누어서 조건부 렌더링  */}
         {isLogin ? (
           <LoginSuccessDisplay>
-            <UserName>정인영</UserName>
-            <PostImg src={postIcon} />
+            <UserName>{name}</UserName>
+            <PostImg
+              src={postIcon}
+              onClick={() => {
+                navigate("/writePost");
+              }}
+            />
           </LoginSuccessDisplay>
         ) : (
           <LoginNavigateImg
