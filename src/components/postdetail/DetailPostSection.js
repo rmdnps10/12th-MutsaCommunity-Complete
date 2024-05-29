@@ -22,10 +22,12 @@ function DetailPostSection() {
         const headers = {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         };
-        const res2 = await instance.get(`board/post-detail/${postid}/like/`, {
-          headers,
-        });
-        setIsLike(res2.data.like);
+        if (localStorage.getItem("accessToken")) {
+          const res2 = await instance.get(`board/post-detail/${postid}/like/`, {
+            headers,
+          });
+          setIsLike(res2.data.like);
+        }
       } catch (err) {
         alert(err);
       }
@@ -38,24 +40,28 @@ function DetailPostSection() {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     };
     setIsPendingRequest(true);
-    if (isLike) {
-      await instance.delete(`board/post-detail/${postid}/like/delete/`, {
-        headers,
-      });
-      setLikeCount((prev) => prev - 1);
-      setIsLike(false);
-    } else {
-      await instance.post(
-        `board/post-detail/${postid}/like/create/`,
-        {},
-        {
+    try {
+      if (isLike) {
+        await instance.delete(`board/post-detail/${postid}/like/delete/`, {
           headers,
-        }
-      );
-      setLikeCount((prev) => prev + 1);
-      setIsLike(true);
+        });
+        setLikeCount((prev) => prev - 1);
+        setIsLike(false);
+      } else {
+        await instance.post(
+          `board/post-detail/${postid}/like/create/`,
+          {},
+          {
+            headers,
+          }
+        );
+        setLikeCount((prev) => prev + 1);
+        setIsLike(true);
+      }
+      setIsPendingRequest(false);
+    } catch (err) {
+      alert("좋아요 달려면 로그인해주세요 ㅎ");
     }
-    setIsPendingRequest(false);
   };
   return (
     <DetailPostSectionWrapper>

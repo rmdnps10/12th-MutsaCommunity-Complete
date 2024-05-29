@@ -24,17 +24,22 @@ function CommentListSection() {
   };
   useEffect(() => {
     fetchCommentList();
-  }, []); 
+  }, []);
 
   const handleClickPostButton = async () => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     };
-    await instance.post(
-      `/board/post-detail/${postid}/comment-create/`,
-      { content: comment },
-      { headers }
-    );
+    try {
+      await instance.post(
+        `/board/post-detail/${postid}/comment-create/`,
+        { content: comment },
+        { headers }
+      );
+    } catch (err) {
+      alert("댓글달려면 로그인해주세요ㅎㅎ");
+    }
+
     setComment("");
     fetchCommentList();
   };
@@ -78,7 +83,7 @@ const CommentTextArea = styled.textarea`
   outline: none;
   border: 1px solid;
   resize: none;
-  font-family: Pretendard;  
+  font-family: Pretendard;
   margin: 2rem 0 1rem;
   border-radius: 1rem;
 `;
