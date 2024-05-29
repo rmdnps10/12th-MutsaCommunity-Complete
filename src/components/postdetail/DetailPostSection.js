@@ -40,13 +40,9 @@ function DetailPostSection() {
     };
     setIsPendingRequest(true);
     if (isLike) {
-      await instance.delete(
-        `board/post-detail/${postid}/like/delete/`,
-        {},
-        {
-          headers,
-        }
-      );
+      await instance.delete(`board/post-detail/${postid}/like/delete/`, {
+        headers,
+      });
       setLikeCount((prev) => prev - 1);
       setIsLike(false);
     } else {
